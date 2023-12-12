@@ -16,18 +16,24 @@ public class DeleteArticle extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String art_id=request.getParameter("art_id");
-        try{
-           Connection con = jdbc.getConnexion();
-           String query="DELETE FROM articles WHERE art_id=?";
-           PreparedStatement ps = con.prepareStatement(query);
-           ps.setString(1, art_id);
-           int recordNum = ps.executeUpdate();
-           if(recordNum>0){
-               response.sendRedirect("listArticle");
-           }
-        }catch (Exception e){
-            e.printStackTrace();
+        HttpSession session = request.getSession();
+        if(session!=null && session.getAttribute("user_id")!=null) {
+
+            String art_id = request.getParameter("art_id");
+            try {
+                Connection con = jdbc.getConnexion();
+                String query = "DELETE FROM articles WHERE art_id=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, art_id);
+                int recordNum = ps.executeUpdate();
+                if (recordNum > 0) {
+                    response.sendRedirect("listArticle");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            response.sendRedirect("ShowArticle");
         }
     }
 

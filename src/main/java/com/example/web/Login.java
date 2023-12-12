@@ -34,7 +34,7 @@ public class Login extends HttpServlet{
                 if (BCrypt.checkpw(pwd, storedPwd)){
                     HttpSession session = request.getSession();
                     session.setAttribute("user_id", user_id);
-                    session.setAttribute("user_name", user_id);
+//                    session.setAttribute("user_name", user_id);
                     response.sendRedirect("ShowArticleCon");
                 }
             }

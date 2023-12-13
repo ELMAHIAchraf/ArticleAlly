@@ -1,7 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -20,7 +19,14 @@
     </style>
 </head>
 <body>
-    <%@include file="navBar.jsp"%>
+    <c:choose>
+        <c:when test="${connected==1}">
+            <%@include file="navBarCon.jsp"%>
+        </c:when>
+        <c:otherwise>
+            <%@include file="navBar.jsp"%>
+        </c:otherwise>
+    </c:choose>
     <div id="cont">
         <h1>${article.getTitre()}</h1>
         <p>${article.getDesc()}</p>

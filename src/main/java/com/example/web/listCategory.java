@@ -21,10 +21,12 @@ public class listCategory extends HttpServlet {
         if(session!=null && session.getAttribute("user_id")!=null) {
             try {
                 Connection con = jdbc.getConnexion();
-
-                String query = "SELECT cat_id, cat_titre, cat_description, user_name, cat_creation_date, cat_update_date  FROM  categories NATURAL JOIN users";
-                Statement statement = con.createStatement();
-                ResultSet res = statement.executeQuery(query);
+                int user_id = (int)session.getAttribute("user_id");
+                String query = "SELECT cat_id, cat_titre, cat_description, user_name, cat_creation_date, cat_update_date  " +
+                        "FROM  categories NATURAL JOIN users WHERE user_id=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setInt(1, user_id);
+                ResultSet res= ps.executeQuery();
 
 
                 List<Category> categories = new ArrayList<>();

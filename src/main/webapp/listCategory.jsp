@@ -60,6 +60,9 @@
         th:nth-of-type(4),th:nth-of-type(5){
             width:180px;
         }
+        th:nth-of-type(6){
+            width: 103px;
+        }
         td{
             border-color: #cccccc;
             padding: 10px;
@@ -71,6 +74,7 @@
 </head>
 <body>
 <%@ include file="navBarCon.jsp"%>
+<div>
 <button id="addCat" onclick="redirectTo('addCategory.jsp')">Ajouter une catégorie</button>
 
 <table border="1">
@@ -82,23 +86,36 @@
         <th>Mise à jour à</th>
         <th>Action</th>
     </tr>
-    <c:forEach var="category" items="${categories}">
-        <tr>
-            <td>${category.getName()}</td>
-            <td>${category.getDescription()}</td>
-            <td>${category.getUser_name()}</td>
-            <td>${category.getCat_creation_date()}</td>
-            <td>${category.getCat_update_date()}</td>
-            <td>
-                <a href="GetToEditCategory?cat_id=${category.getId()}">Edit</a>
-                <form action="DeleteCategory" method="Post">
-                    <input type="hidden" name="cat_id" value="${category.getId()}">&ensp;
-                    <input id="subButt" type="submit" value="Delete">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <c:choose >
+        <c:when test="${!empty categories}">
+            <c:forEach var="category" items="${categories}">
+                <tr>
+                    <td>${category.getName()}</td>
+                    <td>${category.getDescription()}</td>
+                    <td>${category.getUser_name()}</td>
+                    <td>${category.getCat_creation_date()}</td>
+                    <td>${category.getCat_update_date()}</td>
+                    <td>
+                        <a href="GetToEditCategory?cat_id=${category.getId()}">Edit</a>
+                        <form action="DeleteCategory" method="Post">
+                            <input type="hidden" name="cat_id" value="${category.getId()}">&ensp;
+                            <input id="subButt" type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </c:otherwise>
+    </c:choose>
 </table>
+
 <script>
     tr=document.getElementsByTagName('tr');
     for (let i = 0; i < tr.length; i++) {

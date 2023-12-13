@@ -7,6 +7,10 @@
     <title>home</title>
     <link rel="stylesheet" href="CSS/index.css">
     <style>
+        body{
+            margin: 0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
 
         h1{
             margin-top: 80px;
@@ -47,8 +51,14 @@
     </style>
 </head>
 <body>
-<%@ include file="navBar.jsp" %>
-
+<c:choose>
+    <c:when test="${connected==1}">
+        <%@include file="navBarCon.jsp"%>
+    </c:when>
+    <c:otherwise>
+        <%@include file="navBar.jsp"%>
+    </c:otherwise>
+</c:choose>
 <h1>Tous les articles</h1>
 <hr>
 

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,8 +50,14 @@
         background-color: #212529;
         margin-bottom: 15px;
         cursor: pointer;
-
-    }</style>
+    }
+    #logError{
+        color: red;
+        text-align: center;
+        font-size: 14px;
+        margin: 0;
+    }
+    </style>
 </head>
 <body>
 <%@ include file="navBar.jsp" %>
@@ -62,6 +69,9 @@
     <form action="Login" method="Post">
         <input type="email" class="inp" name="email" placeholder="Email">
         <br><input type="password" class="inp" name="pwd" placeholder="Password">
+        <c:if test="${!empty error}">
+            <p id="logError">${error}</p>
+        </c:if>
         <br><input type="submit" id="subButt" name="sub" value="Se connecter">
     </form>
 </div>

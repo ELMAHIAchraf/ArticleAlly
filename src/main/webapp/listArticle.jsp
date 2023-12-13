@@ -21,7 +21,7 @@
             border-radius: 4px;
             border: none;
             font-size: 15px;
-            margin-left: 102px;
+            margin-left: 100px;
             margin-top: 100px;
             cursor: pointer;
         }
@@ -55,8 +55,12 @@
         th:nth-of-type(3){
             width: 130px;
         }
-        th:nth-of-type(4),th:nth-of-type(5){
+        th:nth-of-type(4),th:nth-of-type(5), th:nth-of-type(6){
             width:150px;
+        }
+
+        th:nth-of-type(7){
+            width: 113px;
         }
         td{
             border-color: #cccccc;
@@ -64,6 +68,11 @@
         }
         a{
             color: #3c87f7;
+        }
+        #permission{
+            color: #ff4444;
+            font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
@@ -74,30 +83,49 @@
     <table border="1">
         <tr>
             <th>Titre</th>
-            <th>Description</th>
+            <th>Déscription</th>
             <th>Categorie</th>
             <th>Créé par</th>
             <th>Créé à</th>
             <th>Mise à jour à</th>
             <th>Action</th>
         </tr>
-        <c:forEach var="article" items="${articles}">
-            <tr>
-                <td>${article.getTitre()}</td>
-                <td>${article.getDesc()}</td>
-                <td>${article.getCategory()}</td>
-                <td>${article.getCreator()}</td>
-                <td>${article.getCreationDate()}</td>
-                <td>${article.getUpdateDate()}</td>
-                <td>
-                    <a href="GetToEditArticle?art_id=${article.getId()}">Edit</a>&ensp;
-                    <form action="DeleteArticle" method="Post">
-                        <input type="hidden" name="art_id" value="${article.getId()}">&ensp;
-                        <input id="subButt" type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-        </c:forEach>
+        <c:choose >
+            <c:when test="${!empty articles}">
+                <c:forEach var="article" items="${articles}">
+                    <tr>
+                        <td>${article.getTitre()}</td>
+                        <td>${article.getDesc()}</td>
+                        <td>${article.getCategory()}</td>
+                        <td>${article.getCreator()}</td>
+                        <td>${article.getCreationDate()}</td>
+                        <td>${article.getUpdateDate()}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${article.getUserId() == current_user}">
+                                <a href="GetToEditArticle?art_id=${article.getId()}">Edit</a>&ensp;
+                                <form action="DeleteArticle" method="Post">
+                                    <input type="hidden" name="art_id" value="${article.getId()}">&ensp;
+                                    <input id="subButt" type="submit" value="Delete">
+                                </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <p id="permission">No Action</p>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </c:otherwise>
+        </c:choose>
     </table>
 </div>
 <script>

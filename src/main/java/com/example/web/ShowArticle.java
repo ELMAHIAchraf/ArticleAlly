@@ -35,7 +35,15 @@ public class ShowArticle extends HttpServlet {
                 Article article= new Article(art_id, art_titre, art_description, cat_titre, user_name);
                 articles.add(article);
             }
+
             request.setAttribute("articles", articles);
+            HttpSession session = request.getSession();
+            if(session.getAttribute("user_id")!=null) {
+                request.setAttribute("connected", 1);
+            }else{
+                request.setAttribute("connected", 0);
+            }
+
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
         }catch (Exception e) {

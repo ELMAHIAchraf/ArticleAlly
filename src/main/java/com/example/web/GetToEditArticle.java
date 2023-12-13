@@ -25,18 +25,18 @@ public class GetToEditArticle extends HttpServlet{
         if(session!=null && session.getAttribute("user_id")!=null) {
             try {
                 Connection con = jdbc.getConnexion();
-
-                String query = "SELECT cat_id, cat_titre FROM categories";
-                Statement statement = con.createStatement();
-                ResultSet res = statement.executeQuery(query);
+                int user_id = (int) session.getAttribute("user_id");
+                String query = "SELECT cat_id, cat_titre FROM categories WHERE user_id=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setInt(1, user_id);
+                ResultSet res = ps.executeQuery();
 
                 List<Category> categories = new ArrayList<>();
                 while (res.next()) {
                     int catId = res.getInt("cat_id");
                     String catName = res.getString("cat_titre");
 
-                    Category category = new Category(catId, catName);
-                    categories.add(category);
+                    categories.add(new Category(catId, catName));
                 }
                 int art_id = Integer.parseInt(request.getParameter("art_id"));
 

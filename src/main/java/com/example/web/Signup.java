@@ -22,27 +22,31 @@ public class Signup extends HttpServlet{
         String pwd = BCrypt.hashpw(StringEscapeUtils.escapeHtml4(request.getParameter("pwd")), BCrypt.gensalt(12));
 
         try{
-            Connection con = jdbc.getConnexion();
-            String query="INSERT INTO users(user_name, user_email, user_pwd) VALUES(?, ?, ?)";
-            PreparedStatement pst = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            if(!email.isEmpty() && !pwd.isEmpty()) {
+                Connection con = jdbc.getConnexion();
+                String query = "INSERT INTO users(user_name, user_email, user_pwd) VALUES(?, ?, ?)";
+                PreparedStatement pst = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 
-            pst.setString(1, name);
-            pst.setString(2, email);
-            pst.setString(3, pwd);
+                pst.setString(1, name);
+                pst.setString(2, email);
+                pst.setString(3, pwd);
 
-            int recordNum = pst.executeUpdate();
+                int recordNum = pst.executeUpdate();
 
-            if(recordNum > 0){
-                ResultSet genKeys = pst.getGeneratedKeys();
-                if(genKeys.next()){
-                    int user_id=genKeys.getInt(1);
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user_id", user_id);
-                    response.sendRedirect("ShowArticleCon");
+                if (recordNum > 0) {
+                    ResultSet genKeys = pst.getGeneratedKeys();
+                    if (genKeys.next()) {
+                        int user_id = genKeys.getInt(1);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user_id", user_id);
+                        response.sendRedirect("ShowArticle");
+                    }
                 }
+            }else{
+                request.setAttribute("error", "Enter your account details");
+                request.getRequestDispatcher("signup.jsp").forward(request, response);
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }

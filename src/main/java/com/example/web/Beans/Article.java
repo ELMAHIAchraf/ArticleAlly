@@ -5,17 +5,20 @@ public class Article {
     private String titre;
     private String desc;
     private String category;
+
+    private int user_id;
     private String creator;
     private String creationDate;
     private  String updateDate;
 
 
 
-    public Article(int id, String titre, String desc, String category, String creator, String creationDate, String updateDate) {
+    public Article(int id, String titre, String desc, String category,int user_id, String creator, String creationDate, String updateDate) {
         this.id = id;
         this.titre = titre;
         this.desc = desc;
         this.category = category;
+        this.user_id=user_id;
         this.creator = creator;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
@@ -54,6 +57,9 @@ public class Article {
         return category;
     }
 
+    public int getUserId(){
+        return user_id;
+    }
     public String getCreator() {
         return creator;
     }

@@ -38,6 +38,7 @@
             align-items: center;
             margin-top: -5px;
             background-color: white;
+            position: fixed;
         }
         #articlesDD2{
             margin-left: 120px;
@@ -82,7 +83,7 @@
 </head>
 <body>
     <div id="nav">
-        <a href="ShowArticleCon" id="navTxt">EST</a>
+        <a href="ShowArticle" id="navTxt">EST</a>
 
         <div id="dropDown1" onclick="dropDown('articlesDD1')">
             <div id="navButt1">Articles <i class="fa-solid fa-caret-down"></i></div>

@@ -21,28 +21,33 @@ public class Login extends HttpServlet{
         String pwd = StringEscapeUtils.escapeHtml4(request.getParameter("pwd"));
 
         try{
-            Connection con = jdbc.getConnexion();
-            String query="SELECT * FROM users WHERE user_email=?";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, email);
-            ResultSet res =pst.executeQuery();
+            if(!email.isEmpty() && !pwd.isEmpty()) {
+                Connection con = jdbc.getConnexion();
+                String query = "SELECT * FROM users WHERE user_email=?";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setString(1, email);
+                ResultSet res = pst.executeQuery();
 
-            if(res.next()) {
-                String storedPwd=res.getString("user_pwd");
-                int user_id =res.getInt("user_id");
+                if (res.next()) {
+                    String storedPwd = res.getString("user_pwd");
+                    int user_id = res.getInt("user_id");
 
-                if (BCrypt.checkpw(pwd, storedPwd)){
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user_id", user_id);
-//                    session.setAttribute("user_name", user_id);
-                    response.sendRedirect("ShowArticleCon");
+                    if (BCrypt.checkpw(pwd, storedPwd)) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user_id", user_id);
+                        response.sendRedirect("");
+                    } else {
+                        request.setAttribute("error", "Email or password are incorrect");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
                 }
-            }
+            }else{
+                request.setAttribute("error", "Enter your email and password");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+             }
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
     public void destroy(){
 

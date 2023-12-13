@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,6 +52,12 @@
             margin-bottom: 15px;
             cursor: pointer;
         }
+        #signupError{
+            color: red;
+            text-align: center;
+            font-size: 14px;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +70,9 @@
         <input type="text" class="inp" name="name" placeholder="Name">
         <br><input type="email" class="inp" name="email" placeholder="Email">
         <br><input type="password" class="inp" name="pwd" placeholder="Password">
+        <c:if test="${!empty error}">
+            <p id="signupError">${error}</p>
+        </c:if>
         <br><input type="submit" id="subButt" name="sub" value="S'inscrire">
     </form>
 </div>

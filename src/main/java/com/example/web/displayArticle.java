@@ -32,11 +32,14 @@ public class displayArticle extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 if(session.getAttribute("user_id")!=null) {
-                    request.getRequestDispatcher("displayArticleCon.jsp").forward(request, response);
+                    request.setAttribute("connected", 1);
                 }else{
-                    request.getRequestDispatcher("displayArticle.jsp").forward(request, response);
+                    request.setAttribute("connected", 0);
                 }
+                request.getRequestDispatcher("displayArticle.jsp").forward(request, response);
+
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
